@@ -59,6 +59,6 @@ module.exports = function main(app) {
   Joke.getWordsAll = async () => {
     const jokes = await Joke.find({});
     const words = jokes.map((joke) => joke.words());
-    return words;
+    return [].concat(...words);
   };
 };
