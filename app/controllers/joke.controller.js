@@ -21,7 +21,10 @@ module.exports = function main(app) {
     accepts: [{ arg: 'data', type: 'object', http: { source: 'body' } }],
     returns: { root: true },
   });
-  Joke.createJoke = async (data) => Joke.create(data);
+  Joke.createJoke = async (data) => {
+    const [joke] = await Joke.findOrCreate({ where: { text: data.text } }, data);
+    return joke;
+  };
 
   Joke.remoteMethod('updateJoke', {
     http: { path: '/', verb: 'put' },
