@@ -1,4 +1,5 @@
 const axios = require('axios');
+const constants = require('../constants')
 
 module.exports = function main(app) {
   const { Joke } = app.models;
@@ -23,9 +24,15 @@ module.exports = function main(app) {
     returns: { root: true },
   });
   Joke.getRandomJoke = async () => {
+    const sources = constants.jokeSources;
+    const getRandomSource = () => {
+      const randIndex = Math.floor(Math.random() * sources.length);
+      return sources[randIndex];
+    };
     try {
-      const { data } = await axios.get('http://api.icndb.com/jokes/random/');
-      const joke = { text: data.value.joke };
+      const source = getRandomSource();
+      const { data } = await axios.get(source.url, { headers: {'Accept': 'application/json'} });
+      const joke = source.extractJoke(data);
       return await Joke.createJoke(joke);
     } catch (err) {
       return err;
