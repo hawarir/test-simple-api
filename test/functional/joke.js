@@ -55,6 +55,17 @@ describe('joke', () => {
       resSecond.body.should.have.property('id', resFirst.body.id);
     });
 
+    it('should store random jokes', async () => {
+      const res = await server
+        .get('/api/jokes/random/new')
+        .expect(200);
+      const randomJoke = await app.models.Joke.findById(res.body.id);
+
+      res.body.should.have.property('id');
+      randomJoke.should.have.property('id', res.body.id);
+      randomJoke.should.have.property('text', res.body.text);
+    });
+
     it('should update joke', async () => {
       const joke = await app.models.Joke.create({
         text: 'joke to be updated',

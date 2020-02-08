@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 module.exports = function main(app) {
   const { Joke } = app.models;
 
@@ -15,6 +17,20 @@ module.exports = function main(app) {
     returns: { root: true },
   });
   Joke.getJokes = async () => Joke.find({});
+
+  Joke.remoteMethod('getRandomJoke', {
+    http: { path: '/random/new', verb: 'get' },
+    returns: { root: true },
+  });
+  Joke.getRandomJoke = async () => {
+    try {
+      const { data } = await axios.get('http://api.icndb.com/jokes/random/');
+      const joke = { text: data.value.joke };
+      return await Joke.createJoke(joke);
+    } catch (err) {
+      return err;
+    }
+  };
 
   Joke.remoteMethod('createJoke', {
     http: { path: '/', verb: 'post' },

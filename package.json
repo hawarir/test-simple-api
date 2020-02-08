@@ -8,6 +8,7 @@
     "test": "NODE_ENV=development mocha \"test/**/*.js\" --timeout 10000 --exit"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "cors": "^2.8.5",
     "eslint-plugin-import": "^2.20.1",
     "helmet": "^3.21.2",
