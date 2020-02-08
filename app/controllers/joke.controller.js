@@ -19,7 +19,7 @@ module.exports = function main(app) {
   Joke.getJokes = async () => Joke.find({});
 
   Joke.remoteMethod('getRandomJoke', {
-    http: { path: '/random/new', verb: 'get' },
+    http: { path: '/random', verb: 'get' },
     returns: { root: true },
   });
   Joke.getRandomJoke = async () => {

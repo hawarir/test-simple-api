@@ -57,7 +57,7 @@ describe('joke', () => {
 
     it('should store random jokes', async () => {
       const res = await server
-        .get('/api/jokes/random/new')
+        .get('/api/jokes/random')
         .expect(200);
       const randomJoke = await app.models.Joke.findById(res.body.id);
 
