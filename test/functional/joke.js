@@ -56,10 +56,9 @@ describe('joke', () => {
     });
 
     it('should update joke', async () => {
-      const joke = app.models.Joke.create({
+      const joke = await app.models.Joke.create({
         text: 'joke to be updated',
       });
-
       await server
         .put('/api/jokes')
         .send({
